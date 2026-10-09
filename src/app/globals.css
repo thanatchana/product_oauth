@@ -1,334 +1,202 @@
 @import "tailwindcss";
 
-
-
-
-
 :root {
-
   --background: #ffffff;
-
   --foreground: #171717;
-
 }
-
-
 
 @media (prefers-color-scheme: dark) {
-
   :root {
-
     --background: #0a0a0a;
-
     --foreground: #ededed;
-
   }
-
 }
-
-
 
 /* ตั้งค่าพื้นหลังและฟอนต์หลักของหน้าเว็บ */
-
 body {
-
   background-color: #fffdd5;
-
-  color: #1e293b;          
-
+  color: #1e293b;         
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
   margin: 0;
-
-  padding: 24px;
-
+  padding: 16px;
+  line-height: 1.5;
 }
 
-
+/* คอนเทนเนอร์หลักให้จัดกลางและยืดหยุ่นตามหน้าจอ */
+main, div[style*="maxWidth"] {
+  width: 100%;
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+}
 
 /* หัวข้อหลักของหน้าเว็บ (รายการสินค้า) */
-
 h1, h2, .page-title {
-
   font-size: 1.875rem;
-
   font-weight: 700;
-
   color: #142752;
-
   margin-bottom: 1.5rem;
-
   border-bottom: 2px solid #006effd3;
-
   padding-bottom: 0.5rem;
-
 }
-
-
 
 /* จัดการฟอร์มค้นหา ตัวกรอง และปุ่มควบคุมด้านบน */
-
 input[type="text"],
-
+input[type="number"],
 input[type="search"],
-
 select {
-
   padding: 8px 12px;
-
-  border: 1px solid #9dc7fa;
-
+  border: 1.5px solid #cbd5e1;
   border-radius: 8px;
-
   background-color: #ffffff;
-
+  color: #1e293b;
   font-size: 0.875rem;
-
   outline: none;
-
   transition: all 0.2s ease-in-out;
-
   margin-right: 8px;
-
   margin-bottom: 8px;
-
+  box-sizing: border-box;
 }
-
-
 
 input[type="text"]:focus,
-
+input[type="number"]:focus,
 input[type="search"]:focus,
-
 select:focus {
-
   border-color: #3b82f6;
-
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-
 }
-
-
 
 /* ปุ่มกดต่างๆ (เช่น เพิ่มสินค้า, โหลดข้อมูล) */
-
 button, .btn {
-
   background-color: #1963da;
-
   color: #ffffff;
-
   border: none;
-
-  padding: 8px 8px;
-
+  padding: 8px 16px;
   border-radius: 20px;
-
   font-weight: 500;
-
   font-size: 0.875rem;
-
   cursor: pointer;
-
   transition: background-color 0.2s ease, transform 0.1s ease;
-
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
+  white-space: nowrap;
 }
-
-
 
 button:hover, .btn:hover {
-
   background-color: #2563eb;
-
 }
-
-
 
 button:active, .btn:active {
-
   transform: translateY(1px);
-
 }
 
-
+/* ครอบตารางเพื่อรองรับการเลื่อนแนวนอนบนหน้าจอมือถือ */
+section[aria-live="polite"] {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: #ffffff;
+}
 
 /* ตารางแสดงรายการสินค้า */
-
 table {
-
   width: 100%;
-
+  min-width: 600px; /* ป้องกันตารางเบียดกันเกินไปบนจอเล็ก */
   border-collapse: collapse;
-
   background-color: #ffffff;
-
-  border-radius: 12px;
-
-  overflow: hidden;
-
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-  margin-top: 1rem;
-
-  margin-bottom: 1.5rem;
-
 }
-
-
 
 /* หัวตาราง */
-
 th {
-
   background-color: #cfe7ff;
-
   color: #0b2f94;
-
   font-weight: 600;
-
   text-align: left;
-
   padding: 12px 16px;
-
   font-size: 0.875rem;
-
   border-bottom: 1px solid #dbebff;
-
+  white-space: nowrap;
 }
-
-
 
 /* แถวในตาราง */
-
 td {
-
   padding: 12px 16px;
-
   font-size: 0.875rem;
-
   color: #334155;
-
   border-bottom: 1px solid #f1f5f9;
-
   vertical-align: middle;
-
 }
-
-
 
 /* เอฟเฟกต์เวลาเอาเมาส์ชี้แถวในตาราง */
-
 tbody tr {
-
   transition: background-color 0.15s ease;
-
 }
-
-
 
 tbody tr:hover {
-
   background-color: #f8fafc;
-
 }
 
-
-
-/* ตกแต่งรูปภาพหรืออีโมจิสินค้าในตาราง */
-
+/* ตกแต่งรูปภาพในตาราง */
 td img, td span[role="img"] {
-
   width: 36px;
-
   height: 36px;
-
   display: inline-flex;
-
   align-items: center;
-
   justify-content: center;
-
   border-radius: 6px;
-
   background-color: #f1f5f9;
-
-  object-fit: contain;
-
+  object-fit: cover;
 }
 
-
-
-/* จัดวางส่วนฟอร์มเพิ่มสินค้าด้านล่าง (ถ้ามี) */
-
+/* จัดวางส่วนฟอร์มเพิ่มสินค้าด้านล่าง */
 form {
-
   background: #ffffff;
-
   padding: 20px;
-
   border-radius: 12px;
-
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-
   margin-top: 20px;
-
   display: flex;
-
   gap: 12px;
-
   flex-wrap: wrap;
-
   align-items: center;
-
 }
 
+/* 📱 Responsive Media Queries สำหรับสมาร์ตโฟนและอุปกรณ์จอเล็ก */
+@media (max-width: 639px) {
+  body {
+    padding: 12px;
+  }
 
+  h1, h2, .page-title {
+    font-size: 1.5rem;
+  }
 
-/* ตกแต่งช่องกรอกข้อมูล (Input) และช่องเลือก (Select) ในฟอร์มเพิ่มสินค้า */
+  form {
+    padding: 14px;
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-input[type="text"],
+  form div {
+    width: 100%;
+  }
 
-input[type="number"],
+  input[type="text"],
+  input[type="number"],
+  input[type="search"],
+  select {
+    width: 100%;
+    margin-right: 0;
+  }
 
-input[type="search"],
+  button, .btn {
+    width: 100%;
+    text-align: center;
+  }
 
-select {
-
-  background-color: #ffffff;             /* พื้นหลังสีขาวสะอาดตา */
-
-  color: #1e293b;                       /* สีตัวอักษรด้านในเข้มชัดเจน */
-
-  border: 1.5px solid #cbd5e1;          /* สีขอบเทาอ่อนแบบในรูป */
-
-  border-radius: 8px;                   /* ทำมุมโค้งมน */
-
-  padding: 8px 12px;                    /* ระยะห่างภายในช่อง */
-
-  font-size: 0.875rem;                  /* ขนาดตัวอักษร */
-
-  outline: none;
-
-  transition: all 0.2s ease-in-out;
-
+  td button {
+    width: auto;
+    padding: 6px 12px;
+  }
 }
-
-
-
-/* เอฟเฟกต์เมื่อคลิกใช้งานช่องกรอกข้อมูล (Focus) */
-
-input[type="text"]:focus,
-
-input[type="number"]:focus,
-
-input[type="search"]:focus,
-
-select:focus {
-
-  border-color: #3b82f6;                /* เปลี่ยนขอบเป็นสีฟ้าเมื่อคลิก */
-
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* เพิ่มเงาเรืองแสงสีฟ้าอ่อน */
-
-} 
-

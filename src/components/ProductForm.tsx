@@ -11,109 +11,66 @@ type ProductFormProps = {
   onCancel: () => void;
 };
 
-export default function ProductForm({
-  editing,
-  onSave,
-  onCancel,
-}: ProductFormProps) {
+export default function ProductForm({ editing, onSave, onCancel }: ProductFormProps) {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
   } = useForm<ProductDraft>({
     resolver: zodResolver(ProductDraftSchema),
     mode: "onTouched",
     defaultValues: editing
-      ? {
-          title: editing.title,
-          price: editing.price,
-          stock: editing.stock,
-          category: editing.category,
-        }
+      ? { title: editing.title, price: editing.price, stock: editing.stock, category: editing.category, description: editing.description }
       : { title: "", price: undefined, stock: undefined },
   });
 
   function saveProduct(values: ProductDraft) {
-    console.log("บันทึกข้อมูลสินค้า",values)
     onSave(values);
     reset();
   }
 
   return (
-    <form onSubmit={handleSubmit(saveProduct)} noValidate>
-      <label htmlFor="title">ชื่อสินค้า</label>
-      <input
-        id="title"
-        required
-        {...register("title")}
-        aria-invalid={!!errors.title}
-        aria-describedby="title-error"
-      />
-      <span id="title-error" role="alert">
-        {errors.title?.message}
-      </span>
+    <form onSubmit={handleSubmit(saveProduct)} noValidate style={{ border: "1px solid #382759", padding: "15px", borderRadius: "5px", marginTop: "20px" }}>
+      <h3>{editing ? "แก้ไขสินค้า" : "เพิ่มสินค้าใหม่"}</h3>
 
-      <label htmlFor="price">ราคา</label>
-      <input
-        id="price"
-        type="number"
-        step="0.01"
-        required
-        // เติม: ตัวเลือกที่สั่งให้แปลงค่าเป็นตัวเลขก่อนส่งให้ Schema
-        {...register("price", { valueAsNumber: true })}
-        aria-invalid={!!errors.price}
-        aria-describedby="price-error"
-      />
-      <span id="price-error" role="alert">
-        {errors.price?.message}
-      </span>
+      <div>
+        <label htmlFor="title">ชื่อสินค้า: </label>
+        <input id="title" required {...register("title")} />
+        {errors.title && <span role="alert" style={{ color: "#ff4d6d", display: "block" }}>{errors.title.message}</span>}
+      </div>
 
-      <label htmlFor="stock">จำนวนคงเหลือ</label>
-      <input
-        id="stock"
-        type="number"
-        required
-        {...register("stock", { valueAsNumber: true })}
-        aria-invalid={!!errors.stock}
-        aria-describedby="stock-error"
-      />
-      <span id="stock-error" role="alert">
-        {errors.stock?.message}
-      </span>
+      <div style={{ marginTop: "10px" }}>
+        <label htmlFor="price">ราคา: </label>
+        <input id="price" type="number" step="0.01" required {...register("price", { valueAsNumber: true })} />
+        {errors.price && <span role="alert" style={{ color: "#ff4d6d", display: "block" }}>{errors.price.message}</span>}
+      </div>
 
-      <label htmlFor="category">หมวดหมู่</label>
-      <select
-        id="category"
-        required
-        {...register("category")}
-        aria-invalid={!!errors.category}
-        aria-describedby="category-error"
-      >
-        <option value="">กรุณาเลือกหมวดหมู่</option>
-        {CATEGORIES.map((name) => (
-          <option key={name} value={name}>
-            {name}
-          </option>
-        ))}
-      </select>
-      <span id="category-error" role="alert">
-        {errors.category?.message}
-      </span>
+      <div style={{ marginTop: "10px" }}>
+        <label htmlFor="stock">จำนวนคงเหลือ: </label>
+        <input id="stock" type="number" required {...register("stock", { valueAsNumber: true })} />
+        {errors.stock && <span role="alert" style={{ color: "#ff4d6d", display: "block" }}>{errors.stock.message}</span>}
+      </div>
 
-      <button
-        type="submit"
-        // เติม: ค่าที่บอกว่าข้อมูลทั้งฟอร์มผ่าน Schema แล้วหรือไม่
-        disabled={!isDirty || !isValid}
-      >
-        {editing ? "บันทึกการแก้ไข" : "เพิ่มสินค้า"}
-      </button>
+      <div style={{ marginTop: "10px" }}>
+        <label htmlFor="category">หมวดหมู่: </label>
+        <select id="category" required {...register("category")}>
+          <option value="">-- กรุณาเลือกหมวดหมู่ --</option>
+          {CATEGORIES.map((name) => (
+            <option key={name} value={name}>{name}</option>
+          ))}
+        </select>
+        {errors.category && <span role="alert" style={{ color: "#ff4d6d", display: "block" }}>{errors.category.message}</span>}
+      </div>
 
-      {editing && (
-        <button type="button" onClick={onCancel}>
-          ยกเลิก
+      <div style={{ marginTop: "15px" }}>
+        <button type="submit">
+          {editing ? "บันทึกการแก้ไข" : "เพิ่มสินค้า"}
         </button>
-      )}
+        {editing && (
+          <button type="button" onClick={onCancel} style={{ marginLeft: "10px" }}>ยกเลิก</button>
+        )}
+      </div>
     </form>
   );
 }
